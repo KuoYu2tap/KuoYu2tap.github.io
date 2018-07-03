@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-07-03T09:41:10.180Z</updated>
+  <updated>2018-07-03T11:13:35.221Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>SSL证书自动化申请</title>
+    <link href="http://yoursite.com/2018/07/03/automatic-SSL-CERT-request/"/>
+    <id>http://yoursite.com/2018/07/03/automatic-SSL-CERT-request/</id>
+    <published>2018-07-03T11:11:18.000Z</published>
+    <updated>2018-07-03T11:13:35.221Z</updated>
+    
+    <content type="html"><![CDATA[<!--index image --><img src="/2018/07/03/automatic-SSL-CERT-request/index.jpg"><!--detail--><a id="more"></a><h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><ul><li>使用<a href="https://letsencrypt.org/" target="_blank" rel="noopener">Let’s Encrypt</a>支持泛域名</li><li>支持IIS和Nginx（即获取pfx和cer文件）</li><li>自动化申请和续期（三个月）</li><li>使用腾讯云域名<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1>系统：Ubuntu 14.04 LTS<br>Shell：GNU bash, version 4.4.12(1)-release (x86_64-pc-linux-gnu)<br>依赖软件：curl &amp; cron &amp; socat<h1 id="操作步骤"><a href="#操作步骤" class="headerlink" title="操作步骤"></a>操作步骤</h1><img src="/2018/07/03/automatic-SSL-CERT-request/index.jpg" alt="index"><h1 id="自动化脚本"><a href="#自动化脚本" class="headerlink" title="自动化脚本"></a>自动化脚本</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 依赖环境</span></span><br><span class="line">apt-get update &amp;&amp;  apt-get install curl -y &amp;&amp; apt-get install cron -y &amp;&amp; apt-get install socat -y</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> DP_Id=<span class="string">"&lt;ID&gt;"</span> <span class="comment"># 服务商提供的Id</span></span><br><span class="line"><span class="built_in">export</span> DP_Key=<span class="string">"&lt;TOKEN&gt;"</span> <span class="comment"># 服务商提供的token</span></span><br><span class="line">website=<span class="string">'&lt;DOMAIN.COM&gt;'</span> <span class="comment"># 添加主域名</span></span><br><span class="line">sitepath=<span class="string">"~/.acme.sh/<span class="variable">$website</span>"</span></span><br><span class="line"></span><br><span class="line">curl  https://get.acme.sh | sh  <span class="comment"># 使用ACME.sh 自动申请续期SSL证书</span></span><br><span class="line"></span><br><span class="line">~/.acme.sh/acme.sh --issue --dns dns_dp -d  <span class="variable">$website</span> -d <span class="string">"*."</span><span class="variable">$website</span> <span class="comment"># dns_dp表示以dnspod解析，先主域名，后泛域名</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## 以下为自动化安装</span></span><br><span class="line"><span class="comment"># mkdir -p /etc/nginx/ssl</span></span><br><span class="line"><span class="comment"># cp ~/.acme.sh/$website/fullchain.cer /etc/nginx/ssl/fullchain.cer  #一般使用fullchain.cer和iszy.me.key就可以了。</span></span><br><span class="line"><span class="comment"># cp ~/.acme.sh/$website/$website".key" /etc/nginx/ssl/$website".key"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$sitepath</span></span><br><span class="line"><span class="comment"># 输出证书和密钥</span></span><br><span class="line">cat fullchain.cer</span><br><span class="line">cat <span class="variable">$website</span><span class="string">".key"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 转换证书格式</span></span><br><span class="line">openssl pkcs12 -<span class="built_in">export</span> -out certificate.pfx -inkey &lt;DOMAIN.COM&gt;<span class="string">".key"</span> -<span class="keyword">in</span> &lt;DOMAIN.COM&gt;<span class="string">".cer"</span> -certfile ca.cer -passout pass:<span class="string">""</span></span><br><span class="line"><span class="built_in">cd</span> -</span><br><span class="line"></span><br><span class="line"><span class="comment"># 由于证书时常变动，因此需要经常更新acme.sh脚本</span></span><br><span class="line"><span class="comment"># 开启自动更新，每隔三周自动申请一次</span></span><br><span class="line">acme.sh --upgrade --auto-upgrade</span><br></pre></td></tr></table></figure></li></ul><h1 id="错误提示"><a href="#错误提示" class="headerlink" title="错误提示"></a>错误提示</h1><h2 id="云供应商提供的API"><a href="#云供应商提供的API" class="headerlink" title="云供应商提供的API"></a>云供应商提供的API</h2><p><code>~/.acme.sh/acme.sh --issue --dns &lt;DNS_API&gt; -d  $website -d &quot;*.&quot;$website</code><br>脚本中<code>&lt;DNS_API&gt;</code>不同的供应商有不同的选项<br>详情见<a href="https://github.com/Neilpang/acme.sh/blob/master/dnsapi/README.md" target="_blank" rel="noopener">DNS_API_README</a></p><h2 id="申请续期频率过高"><a href="#申请续期频率过高" class="headerlink" title="申请续期频率过高"></a>申请续期频率过高</h2><figure class="highlight plain"><figcaption><span>Jun 26 01:37:47 UTC 2018] Sign failed, code is not 200.</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[Tue Jun 26 01:37:47 UTC 2018] &#123;&quot;type&quot;:&quot;urn:ietf:params:acme:error:rateLimited&quot;,&quot;detail&quot;:&quot;Error finalizing order :: too many certificates already issued for exact set of domains: *.golibary.com,golibary.com: see https://letsencrypt.org/docs/rate-limits/&quot;,&quot;status&quot;: 429&#125;</span><br><span class="line">[Tue Jun 26 01:37:47 UTC 2018] Please add &apos;--debug&apos; or &apos;--log&apos; to check more details.</span><br><span class="line">[Tue Jun 26 01:37:47 UTC 2018] See: https://github.com/Neilpang/acme.sh/wiki/How-to-debug-acme.sh</span><br></pre></td></tr></table></figure><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://www.cnblogs.com/guogangj/p/4118605.html" target="_blank" rel="noopener">各类证书介绍</a><br><a href="https://www.cnblogs.com/eshizhan/archive/2012/10/07/2713557.html" target="_blank" rel="noopener">证书格式转换</a><br><a href="https://github.com/Neilpang/acme.sh" target="_blank" rel="noopener">ACME.SH repo | GitHub</a><br><a href="https://cloud.tencent.com/developer/article/1064471" target="_blank" rel="noopener">腾讯云DNSPod API申请Let’s Encrypt泛域名证书</a><br><a href="https://laravel-china.org/articles/13496/lets-encrypt-pan-domain-name-application-and-configuration?order_by=vote_count&amp;" target="_blank" rel="noopener">Let’s Encrypt 泛域名证书申请及配置 </a><br><a href="https://www.iszy.me/2018/03/18/wild-card/" target="_blank" rel="noopener">利用 acme.sh 申请 Let’s Encrypt 免费泛域名证书</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;!--index image --&gt;
+&lt;img src=&quot;/2018/07/03/automatic-SSL-CERT-request/index.jpg&quot;&gt;
+&lt;!--detail--&gt;
+    
+    </summary>
+    
+      <category term="work" scheme="http://yoursite.com/categories/work/"/>
+    
+    
+      <category term="ssl" scheme="http://yoursite.com/tags/ssl/"/>
+    
+      <category term="https" scheme="http://yoursite.com/tags/https/"/>
+    
+  </entry>
   
   <entry>
     <title>21v与global使用单林Sync</title>
