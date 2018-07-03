@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="python-lib," />
+  <meta name="keywords" content="nginx,flask,gunicorn," />
 
 
 
@@ -94,18 +94,18 @@
 
 
 
-<meta name="description" content="开始的错误起初不能成功安装lxml，使publish.py不能正常from lxml import html, 导致不能成功发布博客。返回值ImportError: No module named lxml所以我尝试pip install lxml，但仍然返回错误 1/bin/python -c &amp;quot;import setuptools, tokenize;__file__=&amp;apos;/t">
-<meta name="keywords" content="python-lib">
+<meta name="description" content="如果想使Flask顺利运行,单单使用Flask自带的server是不够的。因此我们需要Nginx+gunicorn协同工作。  其实单gunicorn也可以使Flask成功发布，但是遭遇本地多个web服务都需要监听80端口时，就没有办法转发，因此需要gunicorn负责转发服务，配合Nginx工作。当然uWSGI也可以胜任转发工作。 如果本机确定只跑这一个服务，由于gunicorn的性能问题以及">
+<meta name="keywords" content="nginx,flask,gunicorn">
 <meta property="og:type" content="article">
-<meta property="og:title" content="安装lxml的辛酸泪">
-<meta property="og:url" content="http://yoursite.com/2016/10/04/hard-to-install-lxml/index.html">
+<meta property="og:title" content="使用Nginx+gunicorn部署Flask">
+<meta property="og:url" content="http://yoursite.com/2016/10/05/Nginx-Gunicorn-deploy-Flask/index.html">
 <meta property="og:site_name" content="Go Libary">
-<meta property="og:description" content="开始的错误起初不能成功安装lxml，使publish.py不能正常from lxml import html, 导致不能成功发布博客。返回值ImportError: No module named lxml所以我尝试pip install lxml，但仍然返回错误 1/bin/python -c &amp;quot;import setuptools, tokenize;__file__=&amp;apos;/t">
+<meta property="og:description" content="如果想使Flask顺利运行,单单使用Flask自带的server是不够的。因此我们需要Nginx+gunicorn协同工作。  其实单gunicorn也可以使Flask成功发布，但是遭遇本地多个web服务都需要监听80端口时，就没有办法转发，因此需要gunicorn负责转发服务，配合Nginx工作。当然uWSGI也可以胜任转发工作。 如果本机确定只跑这一个服务，由于gunicorn的性能问题以及">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-03T01:38:18.546Z">
+<meta property="og:updated_time" content="2018-07-03T01:41:22.266Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="安装lxml的辛酸泪">
-<meta name="twitter:description" content="开始的错误起初不能成功安装lxml，使publish.py不能正常from lxml import html, 导致不能成功发布博客。返回值ImportError: No module named lxml所以我尝试pip install lxml，但仍然返回错误 1/bin/python -c &amp;quot;import setuptools, tokenize;__file__=&amp;apos;/t">
+<meta name="twitter:title" content="使用Nginx+gunicorn部署Flask">
+<meta name="twitter:description" content="如果想使Flask顺利运行,单单使用Flask自带的server是不够的。因此我们需要Nginx+gunicorn协同工作。  其实单gunicorn也可以使Flask成功发布，但是遭遇本地多个web服务都需要监听80端口时，就没有办法转发，因此需要gunicorn负责转发服务，配合Nginx工作。当然uWSGI也可以胜任转发工作。 如果本机确定只跑这一个服务，由于gunicorn的性能问题以及">
 
 
 
@@ -134,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/10/04/hard-to-install-lxml/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/10/05/Nginx-Gunicorn-deploy-Flask/"/>
 
 
 
 
 
-  <title>安装lxml的辛酸泪 | Go Libary</title>
+  <title>使用Nginx+gunicorn部署Flask | Go Libary</title>
   
 
 
@@ -263,7 +263,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/04/hard-to-install-lxml/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/05/Nginx-Gunicorn-deploy-Flask/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="KuoYu">
@@ -280,7 +280,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">安装lxml的辛酸泪</h1>
+          <h1 class="post-title" itemprop="name headline">使用Nginx+gunicorn部署Flask</h1>
         
 
         <div class="post-meta">
@@ -292,8 +292,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-04T21:54:24+08:00">
-                2016-10-04
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-05T12:32:24+08:00">
+                2016-10-05
               </time>
             
 
@@ -311,9 +311,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/10/04/hard-to-install-lxml/#comments" itemprop="discussionUrl">
+                <a href="/2016/10/05/Nginx-Gunicorn-deploy-Flask/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2016/10/04/hard-to-install-lxml/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2016/10/05/Nginx-Gunicorn-deploy-Flask/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -341,22 +341,36 @@
       
 
       
-        <h2 id="开始的错误"><a href="#开始的错误" class="headerlink" title="开始的错误"></a>开始的错误</h2><p>起初不能成功安装lxml，使publish.py不能正常from lxml import html, 导致不能成功发布博客。<br>返回值<code>ImportError: No module named lxml</code><br>所以我尝试<code>pip install lxml</code>，但仍然返回错误</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/bin/python -c &quot;import setuptools, tokenize;__file__=&apos;/tmp/pip-build-7HN4t8/lxml/setup.py&apos;;exec(compile(getattr(tokenize, &apos;open&apos;, open)(__file__).read().replace(&apos;\r\n&apos;, &apos;\n&apos;), __file__, &apos;exec&apos;))&quot; install --record /tmp/pip-LUVnYB-record/install-record.txt --single-version-externally-managed --compile --install-headers /root/pycode/blogenv/include/site/python2.7/lxml&quot; failed with error code 1 in /tmp/pip-build-7HN4t8/lxml</span><br></pre></td></tr></table></figure>
-<p>通过找各种资料尝试，无果。我决定卸载python的虚拟环境重新安装虚拟环境，并安装包。</p>
-<h2 id="这次的思路为"><a href="#这次的思路为" class="headerlink" title="这次的思路为"></a>这次的思路为</h2><ul>
-<li>更新软件包</li>
-<li>更新pip</li>
-<li>检查requirements.txt的包是否齐全</li>
-<li>通过pip安装requirement.txt</li>
-</ul>
-<p>首先<code>apt-get update</code>更新软件包，然后<code>python -m pip install -U pip</code></p>
-<p>更新pip，最后查看requirements.txt文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">Babel==2.3.4</span><br><span class="line">blinker==1.4</span><br><span class="line">click==6.6</span><br><span class="line">coverage==4.2</span><br><span class="line">decorator==4.0.10</span><br><span class="line">Flask==0.11.1</span><br><span class="line">Flask-Babel==0.11.1</span><br><span class="line">Flask-Login==0.3.2</span><br><span class="line">Flask-Mail==0.9.1</span><br><span class="line">flask-mongoengine==0.8</span><br><span class="line">Flask-OpenID==1.2.5</span><br><span class="line">Flask-Script==2.0.5</span><br><span class="line">Flask-SQLAlchemy==2.1</span><br><span class="line">Flask-WhooshAlchemy==0.56</span><br><span class="line">Flask-WTF==0.12</span><br><span class="line">flipflop==1.0</span><br><span class="line">guess-language==0.2</span><br><span class="line">itsdangerous==0.24</span><br><span class="line">Jinja2==2.8</span><br><span class="line">Markdown==2.6.6</span><br><span class="line">markdown2==2.3.1</span><br><span class="line">MarkupSafe==0.23</span><br><span class="line">pbr==1.10.0</span><br><span class="line">pyjwt==1.4.2</span><br><span class="line">python-openid==2.2.5</span><br><span class="line">pytz==2016.6.1</span><br><span class="line">PyYAML==3.12</span><br><span class="line">requests==2.11.1</span><br><span class="line">six==1.10.0</span><br><span class="line">SQLAlchemy==1.0.15</span><br><span class="line">sqlalchemy-migrate==0.10.0</span><br><span class="line">sqlparse==0.2.1</span><br><span class="line">Tempita==0.5.2</span><br><span class="line">Werkzeug==0.11.11</span><br><span class="line">Whoosh==2.7.4</span><br><span class="line">WTForms==2.1</span><br><span class="line">lxml==3.5.0</span><br></pre></td></tr></table></figure>
-<p>这是拿windows上python的requirement文件，有许多包不用安装，修改太麻烦就没有动。</p>
-<p>最后我们使用pip安装<code>pip install -r requirements.txt</code></p>
-<p>终于迎来了喜讯成功安装，这样就可以使用lxml库进行文章解析了。</p>
-<p><code>Successfully installed Babel-2.3.4 Flask-0.11.1 Flask-Babel-0.11.1 Flask-Login-0.3.2 Flask-Mail-0.9.1 Flask-OpenID-1.2.5 Flask-SQLAlchemy-2.1 Flask-Script-2.0.5 Flask-WTF-0.12 Flask-WhooshAlchemy-0.56 Jinja2-2.8 Markdown-2.6.6 MarkupSafe-0.23 PyYAML-3.12 SQLAlchemy-1.0.15 Tempita-0.5.2 WTForms-2.1 Werkzeug-0.11.11 Whoosh-2.7.4 blinker-1.4 click-6.6 coverage-4.2 decorator-4.0.10 flask-mongoengine-0.8 flipflop-1.0 guess-language-0.2 itsdangerous-0.24 lxml-3.5.0 markdown2-2.3.1 mongoengine-0.10.6 pbr-1.10.0 pyjwt-1.4.2 pymongo-3.3.0 python-openid-2.2.5 pytz-2016.6.1 requests-2.11.1 six-1.10.0 sqlalchemy-migrate-0.10.0 sqlparse-0.2.1</code></p>
+        <blockquote>
+<p>如果想使Flask顺利运行,单单使用Flask自带的server是不够的。因此我们需要Nginx+gunicorn协同工作。</p>
+</blockquote>
+<p>其实单gunicorn也可以使Flask成功发布，但是遭遇本地多个web服务都需要监听80端口时，就没有办法转发，因此需要gunicorn负责转发服务，配合Nginx工作。当然uWSGI也可以胜任转发工作。</p>
+<p>如果本机确定只跑这一个服务，由于gunicorn的性能问题以及对各种Http请求缓冲头的处理没有Nginx完善，我们还是需要Nignx提供正式的服务<br><a href="http://zhidao.baidu.com/link?url=Leky7je6XUPF4iuLa5EaHU3KYQ37Frt_mtK4_mwwrr6lnsMWIJ_s5KSIf4-D3D2bemjC1oFZhGMFGsh2SgUUHSuiM-w2Om-yjKcw6n9MDF7" target="_blank" rel="noopener">资料来源</a></p>
+<h2 id="Gunicorn的安装与配置"><a href="#Gunicorn的安装与配置" class="headerlink" title="Gunicorn的安装与配置"></a>Gunicorn的安装与配置</h2><p>打开python的虚拟环境virtualenv。<br><code>$ source /flask/bin/activate</code></p>
+<p>运行pip安装<br><code>(flask)$ pip install gunicorn</code></p>
+<p>运行gunicorn<br><code>(flask)$ gunicorn -w 8 -b 127.0.0.1:8080 run:app</code></p>
+<p>这里的-w 8参数是打开八个进程（worker）同时处理HTTP请求。-b 127.0.0.1:端口号是设置监听端口，我们设置为8080以供设置Nginx。后面的run:app，是指本地上的run.py中的app实例。</p>
+<h2 id="Nginx的安装和配置"><a href="#Nginx的安装和配置" class="headerlink" title="Nginx的安装和配置"></a>Nginx的安装和配置</h2><p>这里我们不使用python的虚拟环境，所以执行<code>deactivate</code>退出虚拟环境。直接apt-get安装nginx。</p>
+<p><code>$ apt-get install nginx</code></p>
+<p>然后我们转向Nginx的默认配置文件</p>
+<p><code>$ cd /etc/nginx/site-avalidable/default</code></p>
+<p>在目录下备份默认文件<code>sudo cp default default.bak</code></p>
+<p>修改default文件，因为Nginx的版本不同，需要把没有出现的语句都注释掉。</p>
+<p><code>$ sudo vim default</code></p>
+<pre><code>server {
+    listen 80;
+    server_name example.org; # 这是HOST机器的外部域名，用地址也行```
+
+    location / {
+        proxy_pass http://127.0.0.1:8080; # 这里是指向 gunicorn host 的服务地址
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
+</code></pre><p>然后重新启动nginx</p>
+<p><code>$ sudo service nginx restart</code></p>
+<p>后文有让flask程序在linux启动时运行的操作，不赘述。</p>
+<p><a href="http://www.cnblogs.com/Ray-liang/p/4837850.html" target="_blank" rel="noopener">资料来源</a></p>
 
       
     </div>
@@ -374,7 +388,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/python-lib/" rel="tag"># python-lib</a>
+            <a href="/tags/nginx/" rel="tag"># nginx</a>
+          
+            <a href="/tags/flask/" rel="tag"># flask</a>
+          
+            <a href="/tags/gunicorn/" rel="tag"># gunicorn</a>
           
         </div>
       
@@ -387,8 +405,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/10/04/learn-git-02/" rel="next" title="Learn Git 02">
-                <i class="fa fa-chevron-left"></i> Learn Git 02
+              <a href="/2016/10/04/hard-to-install-lxml/" rel="next" title="安装lxml的辛酸泪">
+                <i class="fa fa-chevron-left"></i> 安装lxml的辛酸泪
               </a>
             
           </div>
@@ -397,8 +415,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/10/05/Nginx-Gunicorn-deploy-Flask/" rel="prev" title="使用Nginx+gunicorn部署Flask">
-                使用Nginx+gunicorn部署Flask <i class="fa fa-chevron-right"></i>
+              <a href="/2016/10/06/learn-git-01/" rel="prev" title="learn-git-01">
+                learn-git-01 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -531,7 +549,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#开始的错误"><span class="nav-number">1.</span> <span class="nav-text">开始的错误</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#这次的思路为"><span class="nav-number">2.</span> <span class="nav-text">这次的思路为</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Gunicorn的安装与配置"><span class="nav-number">1.</span> <span class="nav-text">Gunicorn的安装与配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx的安装和配置"><span class="nav-number">2.</span> <span class="nav-text">Nginx的安装和配置</span></a></li></ol></div>
             
 
           </div>
@@ -681,9 +699,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2016/10/04/hard-to-install-lxml/';
-          this.page.identifier = '2016/10/04/hard-to-install-lxml/';
-          this.page.title = '安装lxml的辛酸泪';
+          this.page.url = 'http://yoursite.com/2016/10/05/Nginx-Gunicorn-deploy-Flask/';
+          this.page.identifier = '2016/10/05/Nginx-Gunicorn-deploy-Flask/';
+          this.page.title = '使用Nginx+gunicorn部署Flask';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://kuoyu.disqus.com/embed.js';

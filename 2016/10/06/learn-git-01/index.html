@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="git," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="基本操作sudo apt-get gitmkdir learngit and cd learngit git init生成了.git文件  千万不要使用Windows自带的记事本编辑任何文本文件。原因是Microsoft开发记事本的团队使用了一个非常弱智的行为来保存UTF-8编码的文件，他们自作聪明地在每个文件开头添加了0xefbbbf（十六进制）的字符.   TXT开头添加的BOM头是为了识别该">
+<meta name="keywords" content="git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="learn-git-01">
+<meta property="og:url" content="http://yoursite.com/2016/10/06/learn-git-01/index.html">
+<meta property="og:site_name" content="Go Libary">
+<meta property="og:description" content="基本操作sudo apt-get gitmkdir learngit and cd learngit git init生成了.git文件  千万不要使用Windows自带的记事本编辑任何文本文件。原因是Microsoft开发记事本的团队使用了一个非常弱智的行为来保存UTF-8编码的文件，他们自作聪明地在每个文件开头添加了0xefbbbf（十六进制）的字符.   TXT开头添加的BOM头是为了识别该">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-03T01:52:12.563Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="learn-git-01">
+<meta name="twitter:description" content="基本操作sudo apt-get gitmkdir learngit and cd learngit git init生成了.git文件  千万不要使用Windows自带的记事本编辑任何文本文件。原因是Microsoft开发记事本的团队使用了一个非常弱智的行为来保存UTF-8编码的文件，他们自作聪明地在每个文件开头添加了0xefbbbf（十六进制）的字符.   TXT开头添加的BOM头是为了识别该">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/10/06/learn-git-01/"/>
+
+
+
+
+
+  <title>learn-git-01 | Go Libary</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Go Libary</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/06/learn-git-01/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="KuoYu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Go Libary">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">learn-git-01</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-06T18:32:24+08:00">
+                2016-10-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/10/06/learn-git-01/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2016/10/06/learn-git-01/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h2><p><code>sudo apt-get git</code><br><code>mkdir learngit</code> and <code>cd learngit</code></p>
+<p><code>git init</code><br>生成了.git文件</p>
+<blockquote>
+<p>千万不要使用Windows自带的记事本编辑任何文本文件。原因是Microsoft开发记事本的团队使用了一个非常弱智的行为来保存UTF-8编码的文件，他们自作聪明地在每个文件开头添加了0xefbbbf（十六进制）的字符.</p>
+</blockquote>
+<blockquote>
+<p>TXT开头添加的<strong>BOM头</strong>是为了识别该文件为UTF8编码文件，其他的编译软件不识别</p>
+</blockquote>
+<h3 id="添加文件"><a href="#添加文件" class="headerlink" title="添加文件"></a>添加文件</h3><p><code>git add File</code>把文件添加到仓库<br><code>git commit -m &quot;提示内容&quot;</code>把文件提交到仓库,-m 添加操作说明<br><code>git status</code>查看仓库状态<br><code>git diff FILE</code> 查看文件<br><code>git log</code> 查看历史记录 <em>包含了修改时间</em> –pretty=oneline 仅显示一行</p>
+<h3 id="版本问题"><a href="#版本问题" class="headerlink" title="版本问题"></a>版本问题</h3><p><code>HEAD</code>代表当前版本，<code>HEAD^</code>代表上一版本，<code>HEAD~100</code>上一百版本。</p>
+<h4 id="版本回退"><a href="#版本回退" class="headerlink" title="版本回退"></a>版本回退</h4><p><code>git reset -hard HEAD</code><br><code>git reset -hard CommitId前几位</code> 找回以前的版本。<br>不知道CommitId时，可以使用<code>git relog</code> 查看原来的操作指令。</p>
+<h3 id="工作区和暂存区"><a href="#工作区和暂存区" class="headerlink" title="工作区和暂存区"></a>工作区和暂存区</h3><p>上文<code>mkdir learngit</code>创建的learngit文件夹为一个<strong>工作区</strong><br>工作区中有.git隐藏目录，为git的<strong>版本库</strong><br><code>git add</code>把<strong>工作区</strong>的文件放入<strong>暂存区</strong><br><code>git commit</code>把<strong>暂存区</strong>所有的修改提交到分支  </p>
+<p><code>git checkout --FILE</code>把FILE文件在工作区中的修改全部撤销<br>事实上是让FILE文件回到执行<code>git add</code>或者<code>git commit</code>前的状态 </p>
+<p><code>git reset HEAD FILE</code>把FILE在暂存区的修改撤销，重新放回工作区  </p>
+<h2 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h2><h4 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h4><p>在文件管理器下删除了文件<code>rm FILE</code>,即工作区删除了文件  </p>
+<h4 id="确认删除该文件"><a href="#确认删除该文件" class="headerlink" title="确认删除该文件"></a>确认删除该文件</h4><p><code>git rm FILE</code> and <code>git commit -m &quot;删除FILE&quot;</code>版本库上也删除了FILE</p>
+<h4 id="误删除"><a href="#误删除" class="headerlink" title="误删除"></a>误删除</h4><p><code>git checkout --FILE</code>把版本库中的文件提出来。<br><code>git checkout</code>把版本库的文件提取出来，让本地文件一键还原。</p>
+<h2 id="GitHub远程库"><a href="#GitHub远程库" class="headerlink" title="GitHub远程库"></a>GitHub远程库</h2><h4 id="添加远程库"><a href="#添加远程库" class="headerlink" title="添加远程库"></a>添加远程库</h4><p>在github中添加远程库 </p>
+<pre><code>git remote add origin git@github.com:MyName/learngit.git 
+</code></pre><p>本地库推送至远程库</p>
+<pre><code>git push -u origin master    #初次使用，-u 关联分支
+git push origin master        #日后使用
+</code></pre><h4 id="从远程库中克隆"><a href="#从远程库中克隆" class="headerlink" title="从远程库中克隆"></a>从远程库中克隆</h4><p>克隆远程库</p>
+<pre><code>git clone git@github.com:Myname/NewGit.git
+</code></pre><h2 id="分支管理"><a href="#分支管理" class="headerlink" title="分支管理"></a>分支管理</h2><p>当只有一位开发者时只有<code>master</code>分支，我们采用的<code>HEAD</code>-&gt;<code>master</code>，<br>当我们创建一个<code>dev</code>新分支时，<code>HEAD</code>-&gt;<code>dev</code><br>分支的工作流程为:</p>
+<pre><code>创建dev分支 -&gt; 在dev分支下工作 -&gt; 合并dev分支到master分支 -&gt; 删除dev分支，主分支又进一步
+</code></pre><h4 id="创建dev分支"><a href="#创建dev分支" class="headerlink" title="创建dev分支"></a>创建dev分支</h4><pre><code>git checkout -b dev        #-b 创建并切换
+git branch                #查看当前分支
+git checkout master        #切换到master分支
+</code></pre><h4 id="合并分支并删除"><a href="#合并分支并删除" class="headerlink" title="合并分支并删除"></a>合并分支并删除</h4><pre><code>git merge dev            #合并dev分支
+git cbranch -d dev        #删除分支
+</code></pre><h4 id="冲突"><a href="#冲突" class="headerlink" title="冲突"></a>冲突</h4><pre><code>git log --graph        #查看分支冲突示意图
+</code></pre><h4 id="分支管理策略"><a href="#分支管理策略" class="headerlink" title="分支管理策略"></a>分支管理策略</h4><pre><code>git checkout -b dev
+git add file.txt    #在dev分支上添加文件
+git checkout master    #切换回master分支
+
+git merge --no-ff -m &quot;merge --no-ff&quot; dev        #禁用Fast forward即合并后不删除分支信息
+</code></pre><h4 id="bug分支"><a href="#bug分支" class="headerlink" title="bug分支"></a>bug分支</h4><blockquote>
+<p>为了修改Bug,先存储当前工作,解决Bug后再提取出来。</p>
+</blockquote>
+<pre><code>git stash                    #储藏当前分支的工作
+git stash list                #查看储藏的分支
+
+git stash apply    stash@{No.}    #恢复储藏,但储藏的内容不消失,需要git stash drop
+git stash pop                #pop方式弹出储藏内容
+</code></pre><h4 id="Future分支"><a href="#Future分支" class="headerlink" title="Future分支"></a>Future分支</h4><blockquote>
+<p>为了添加一个新功能而创建的Future分支<br>这是一个未合并的分支,删除时显示冲突</p>
+</blockquote>
+<pre><code>git branch -d Future        #显示删除冲突,原因该分支未合并
+git branch -D Future        #成功删除
+</code></pre><h4 id="多人协作"><a href="#多人协作" class="headerlink" title="多人协作"></a>多人协作</h4><p>查看远程库</p>
+<pre><code>git remote        #返回远程库名列表，-v显示详细信息
+git pull        #从远程库抓取
+</code></pre><p>因此，多人协作的工作模式通常是这样：<br>1.首先，可以试图用git push origin branch-name推送自己的修改；<br>2.如果推送失败，则因为远程分支比你的本地更新，需要先用git pull试图合并；<br>3.如果合并有冲突，则解决冲突，并在本地提交；<br>4.没有冲突或者解决掉冲突后，再用git push origin branch-name推送就能成功！<br>5.如果git pull提示“no tracking information”，则说明本地分支和远程分支的链接关系没有创建，用命令git branch –set-upstream branch-name origin/branch-name。<br>6.这就是多人协作的工作模式，一旦熟悉了，就非常简单。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/git/" rel="tag"># git</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/05/Nginx-Gunicorn-deploy-Flask/" rel="next" title="使用Nginx+gunicorn部署Flask">
+                <i class="fa fa-chevron-left"></i> 使用Nginx+gunicorn部署Flask
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/26/from-bipartite-grah-to-lesson-scheduling/" rel="prev" title="从二分图探讨如何解决排课问题">
+                从二分图探讨如何解决排课问题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="KuoYu" />
+          <p class="site-author-name" itemprop="name">KuoYu</p>
+           
+              <p class="site-description motion-element" itemprop="description">这里是KuoYu的小站</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本操作"><span class="nav-number">1.</span> <span class="nav-text">基本操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#添加文件"><span class="nav-number">1.1.</span> <span class="nav-text">添加文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#版本问题"><span class="nav-number">1.2.</span> <span class="nav-text">版本问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#版本回退"><span class="nav-number">1.2.1.</span> <span class="nav-text">版本回退</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工作区和暂存区"><span class="nav-number">1.3.</span> <span class="nav-text">工作区和暂存区</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除文件"><span class="nav-number">2.</span> <span class="nav-text">删除文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#前提"><span class="nav-number">2.0.1.</span> <span class="nav-text">前提</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#确认删除该文件"><span class="nav-number">2.0.2.</span> <span class="nav-text">确认删除该文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#误删除"><span class="nav-number">2.0.3.</span> <span class="nav-text">误删除</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GitHub远程库"><span class="nav-number">3.</span> <span class="nav-text">GitHub远程库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#添加远程库"><span class="nav-number">3.0.1.</span> <span class="nav-text">添加远程库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#从远程库中克隆"><span class="nav-number">3.0.2.</span> <span class="nav-text">从远程库中克隆</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分支管理"><span class="nav-number">4.</span> <span class="nav-text">分支管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建dev分支"><span class="nav-number">4.0.1.</span> <span class="nav-text">创建dev分支</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#合并分支并删除"><span class="nav-number">4.0.2.</span> <span class="nav-text">合并分支并删除</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#冲突"><span class="nav-number">4.0.3.</span> <span class="nav-text">冲突</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分支管理策略"><span class="nav-number">4.0.4.</span> <span class="nav-text">分支管理策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bug分支"><span class="nav-number">4.0.5.</span> <span class="nav-text">bug分支</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Future分支"><span class="nav-number">4.0.6.</span> <span class="nav-text">Future分支</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多人协作"><span class="nav-number">4.0.7.</span> <span class="nav-text">多人协作</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">KuoYu</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Gemini
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://kuoyu.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2016/10/06/learn-git-01/';
+          this.page.identifier = '2016/10/06/learn-git-01/';
+          this.page.title = 'learn-git-01';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://kuoyu.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
